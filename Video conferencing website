@@ -1,1 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Conferencing</title>
+</head>
+<body>
+    <h1>Video Conferencing</h1>
+    
+    <div id="localVideo">
+        <video autoplay></video>
+    </div>
+    
+    <div id="remoteVideo">
+        <video autoplay></video>
+    </div>
+    
+    <button id="startButton">Start Call</button>
+    <button id="stopButton">End Call</button>
+    
+    <script>
+        const localVideo = document.querySelector('#localVideo');
+        const remoteVideo = document.querySelector('#remoteVideo');
+        const startButton = document.querySelector('#startButton');
+        const stopButton = document.querySelector('#stopButton');
+        let localStream;
+        let remoteStream;
+        let peerConnection;
+
+        startButton.addEventListener('click', startCall);
+        stopButton.addEventListener('click', endCall);
+
+        async function startCall() {
+            try {
+                localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                localVideo.srcObject = localStream;
+
+                // Create a peer connection
+                peerConnection = new RTCPeerConnection();
+
+                // Add local stream to the peer connection
+                localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
+                // Set up event handlers for the peer connection
+
+                // Code for handling remote stream goes here
+
+                // Code for handling ICE candidates goes here
+
+                // Create an offer and set it as the local description
+                const offer = await peerConnection.createOffer();
+                await peerConnection.setLocalDescription(offer);
+
+                // Send the offer to the other participant (Signaling server needed)
+
+            } catch (error) {
+                console.error('Error starting the call:', error);
+            }
+        }
+
+        function endCall() {
+            // Code to end the call goes here
+        }
+    </script>
+</body>
+</html>
 
